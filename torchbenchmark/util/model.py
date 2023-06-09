@@ -15,6 +15,7 @@ from torchbenchmark.util.extra_args import parse_opt_args, apply_opt_args, \
 from torchbenchmark.util.env_check import set_random_seed, is_hf_model, \
                                           save_deterministic_dict, load_deterministic_dict, check_accuracy
 from torchbenchmark.util.fx_int8 import get_sub_module, prepare_sub_module, convert_sub_module
+import torch_directml
 
 class PostInitProcessor(type):
     def __call__(cls, *args, **kwargs):
@@ -159,6 +160,9 @@ class BenchmarkModel(metaclass=PostInitProcessor):
                 current_device_name = "cpu"
             elif self.device == "mps":
                 current_device_name = "mps"
+            else:
+                current_device_name = torch_directml.device(torch_directml.default_device())
+
             # use the device suggestion on CUDA inference tests, key should be either eval_batch_size or train_batch_size
             device_batch_size_key = f"{self.test}_batch_size"
             if self.metadata and "devices" in self.metadata and current_device_name in self.metadata["devices"] \

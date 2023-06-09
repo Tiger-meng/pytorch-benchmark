@@ -246,6 +246,8 @@ def run_in_worker(scoped: bool = True) -> typing.Callable[..., typing.Any]:
             body: typing.List[str] = ["# Deserialize args", "import marshal"]
             for arg_name, arg_value in bound_signature.arguments.items():
                 try:
+                    if str(arg_value) == "privateuseone:0":
+                        arg_value = str(arg_value)
                     arg_bytes = marshal.dumps(arg_value)
                 except ValueError:
                     raise ValueError(f"unmarshallable arg {arg_name}: {arg_value}")
