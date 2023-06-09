@@ -105,6 +105,13 @@ The test name follows the following pattern:
 "test_" + <model_name> + "_" + {"train" | "eval" } + "_" + {"cpu" | "cuda"}
 ```
 
+### Using `test_directml.py`
+`python test_directml.py` will execute the APIs for each model, as a sanity check. it is just add dirctml device comparing with test.py script.  
+For instance, to run the alexnet model with directML for the train execution mode:
+```
+python test_directml.py -k "test_alexnet_pytorch_train_privateuseone:0"
+```
+
 ### Using pytest-benchmark driver
 `pytest test_bench.py` invokes the benchmark driver.  See `--help` for a complete list of options.
 
